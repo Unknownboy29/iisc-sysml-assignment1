@@ -31,6 +31,9 @@ def naive_implementation(inputFmap, filter,stride,H,W,R,S,C,M):
 
 def flatten_method(inputFmap, filter,stride,H,W,R,S,C,M):
     ########flattening the  filter
+    E = (H-R+stride)//stride  #height of output fmap
+    F = (W-S+stride)//stride
+
     width_flatten_filter = C*R*S
     flatte_filter = [[0 for _ in range(width_flatten_filter)] for _ in range(M)]
 
@@ -47,19 +50,21 @@ def flatten_method(inputFmap, filter,stride,H,W,R,S,C,M):
 
     toeplitz_matrix_height = C*R*S
     toeplitz_matrix_width = (H-R+1)*(W-S+1)*N
-    toeplitz_input_matrix = [[0 for _ in range(toeplitz_matrix_width)] for _ in range(toeplitz_matrix_height)]
+    toeplitz_input_matrix = [] #[[0 for _ in range(toeplitz_matrix_height)] for _ in range(toeplitz_matrix_width)]
 
     for n in range(N):
-        rslt =[]
-        for i in range(H):
-            for j in range(W):
+        #rslt =[]
+        for i in range(E):
+            for j in range(F):
+                patch_list=[]
                 for c in range(C):
-                    patch_list=[]
+                    #patch_list=[]
                     for r in range(R):
                         for s in range(S):
                             patch_list.append(inputFmap[n][c][stride*i + r][stride*j + s])
-
-                    print(patch_list)
+                
+                toeplitz_input_matrix.append(patch_list)            
+                    #print(patch_list)
 
                     
     
